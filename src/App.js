@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState } from 'react';
+import DatePicker from 'react-datetime';
+import moment from 'moment';
+import 'react-datetime/css/react-datetime.css';
 function App() {
+  const [dt, setDt] = useState(moment());
+  const today = moment();
+  const disableFutureDt = current => {
+    return current.isBefore(today)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <DatePicker
+        inputProps={{
+          style: { width: 250 }
+        }}
+        isValidDate={disableFutureDt}
+        value={dt}
+        dateFormat="DD-MM-YYYY"
+        timeFormat="hh:mm A"
+        onChange={val => setDt(val)}
+      /> <br />
+      <div><b>Date:</b> {dt.format('LLL')}</div>
     </div>
   );
 }
